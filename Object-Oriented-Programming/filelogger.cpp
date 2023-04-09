@@ -4,12 +4,18 @@
 
 
 
-class FileLogger {
+class Logger { /*Abstract Logger Class*/
+protected:
+    virtual void log(const std::string&) = 0;
+};
+
+
+class FileLogger : public Logger {
 public:
     //constructor with parameter
     FileLogger(const std::string& filename) : m_filename(filename) {}
     //method
-    void log(const std::string& message) {
+    void log(const std::string& message) override {
         std::ofstream file(m_filename);
         if (file.is_open()) {
             file << message << std::endl;
@@ -23,7 +29,7 @@ private:
 
 class ConsoleLogger {
 public:
-    void log(const std::string& message) {
+    void log(const std::string& message) override{
         std::cout << message << std::endl;
     }
 };
