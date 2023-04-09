@@ -4,11 +4,12 @@
 
 
 
-class Logger { /*Abstract Logger Class*/
+class Logger { /* Abstract Logger Class */
 protected:
     virtual void log(const std::string&) = 0;
 };
 
+/* FileLogger and ConsoneLogger both have log method, so it will be more cool to use abstract Logger class */
 
 class FileLogger : public Logger {
 public:
