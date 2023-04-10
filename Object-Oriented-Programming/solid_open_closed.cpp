@@ -3,12 +3,15 @@
 
 #include <iostream>
 #include <string>
+
 #include <vector>
 
 // Abstract class for payment
 class Payment {
 public:
     virtual void pay(float amount) = 0;
+    
+    virtual ~Payment() {}
 };
 
 // Implementation of payment via PayPal
