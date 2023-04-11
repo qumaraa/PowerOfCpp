@@ -59,7 +59,7 @@ public:
 	{
 		balance += amount_;
 	}
-	float getBalance() { return balance; }
+	int getBalance() { return static_cast<int>(balance); } 
 
 	void showOrders() const {
 		for (const auto& order : orders) {
