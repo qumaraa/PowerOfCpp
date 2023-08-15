@@ -55,7 +55,7 @@ int main() {
     }
 
     std::cout << "Press Enter to start playing sounds..." << std::endl;
-    _getch();
+    while (_getch() != 13);
 
   
     std::thread time(Time);
