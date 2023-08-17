@@ -25,27 +25,32 @@ void Time() {
 
 int main() {
     fs::path itemsDir;
-    std::cout << "[format of sounds should be '.wav']" << std::endl;
-    std::cout << "Enter path with sounds: ";
-    std::cin >> itemsDir;
+    bool validDirectory = false; // Flag to track if a valid directory is entered
+
+    while (!validDirectory) {
+        std::cout << "[format of sounds should be '.wav']" << std::endl;
+        std::cout << "Enter path with sounds: ";
+        std::cin >> itemsDir;
+
+        if (fs::is_directory(itemsDir)) {
+            validDirectory = true; // Set the flag to true if the entered path is a valid directory
+        }
+        else {
+            std::cout << "Directory not found. Please enter a valid path." << std::endl;
+        }
+    }
 
     long seconds = 0;
     std::vector<std::string> soundFiles;
 
-    if (fs::is_directory(itemsDir)) {
-        for (const auto& entry : fs::directory_iterator(itemsDir)) {
-            if (entry.path().extension() == ".wav") {
-                soundFiles.push_back(entry.path().filename().string());
-            }
+    for (const auto& entry : fs::directory_iterator(itemsDir)) {
+        if (entry.path().extension() == ".wav") {
+            soundFiles.push_back(entry.path().filename().string());
         }
-    }
-    else {
-        std::cout << "Directory 'sounds' not found." << std::endl;
-        return 1;
     }
 
     if (soundFiles.empty()) {
-        std::cout << "No sound files found in 'sounds' directory." << std::endl;
+        std::cout << "No sound files found in the specified directory." << std::endl;
         return 1;
     }
 
@@ -57,10 +62,8 @@ int main() {
     std::cout << "Press Enter to start playing sounds..." << std::endl;
     while (_getch() != 13);
 
-  
     std::thread time(Time);
- 
-     
+
     for (const auto& soundFile : soundFiles) {
         std::cout << "\nNow playing: " << soundFile << std::endl;
         PlaySound((itemsDir / soundFile).string());
@@ -70,8 +73,6 @@ int main() {
         while (_getch() != 13); // 13 - Enter
     }
 
-   
-    
     time.join();
     std::cout << std::endl; // Print a newline after the timer thread is stopped.
     return 0;
